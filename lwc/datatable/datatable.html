@@ -1,0 +1,71 @@
+<template>
+    <div if:true={hasRecords}>
+        <div if:true={hasHeader} class="table__header">
+            <lightning-layout multiple-rows>
+                <lightning-layout-item size="12" small-device-size="3" medium-device-size="6" large-device-size="1">
+                    <lightning-combobox if:true={showPageEntries}
+                        name="ShowEntries" 
+                        label="Show Entries" 
+                        data-show-entries-input
+                        value={pageLengthDefaultValue} 
+                        options={pageLengthOptions} 
+                        onchange={handlePageEntries}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" padding="horizontal-small" small-device-size="3" medium-device-size="6"
+                    large-device-size="5">
+                </lightning-layout-item>
+                <lightning-layout-item size="12" padding="horizontal-small" small-device-size="3" medium-device-size="6"
+                    large-device-size="3">
+                    <lightning-combobox if:true={showFilterColumn}
+                        name="Filter by Column" 
+                        value="all" 
+                        data-filter-input 
+                        label="Filter by Column"
+                        onchange={handleFilterByColumn} 
+                        options={columnFilterOptions}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size="3" medium-device-size="6" large-device-size="3">
+                    <lightning-input if:true={searchable}
+                        type="search" 
+                        data-search-input 
+                        onchange={handleSearching} 
+                        name="Search"
+                        label="Search"></lightning-input>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+
+        <div class={tableStyle}>
+            <lightning-datatable 
+                key-field={keyField} 
+                data={data} 
+                columns={columns} 
+                hide-checkbox-column={hideCheckboxColumn}
+                show-row-number-column={showRowNumberColumn}
+                sorted-by={sortedBy} 
+                sorted-direction={sortedDirection}
+                onsort={handleColumnSorting}>
+            </lightning-datatable>
+        </div>
+
+        <div if:false={hasDataInTable} class="slds-align_absolute-center slds-p-around_small slds-border_bottom error-msg">
+            No matching records found
+        </div>
+
+        <div if:true={showPagination} class="paging">
+            <lightning-layout multiple-rows>
+                <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="8">
+                    <p class="slds-p-top_x-small slds-text-title">
+                         {showingEntriesMessage}
+                    </p>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="4">
+                    <div lwc:dom="manual" data-pagination class="pagination"></div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </div>
+    
+</template>
