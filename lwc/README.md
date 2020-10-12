@@ -76,7 +76,7 @@ A `lightning-datatable` component displays tabular data where each column can be
 
 **Output:**
 
-![output]()
+![output](https://github.com/Nisar-99/Salesforce-LWC-Datatable/blob/main/lwc/datatable.jpg)
 
 >More LWC datatable: [lighting-datatable](https://developer.salesforce.com/docs/component-library/bundle/lightning-datatable/specification) .
 
