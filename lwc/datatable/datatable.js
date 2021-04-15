@@ -1,4 +1,8 @@
-import { LightningElement, api, track } from 'lwc';
+import {
+    LightningElement,
+    api,
+    track
+} from 'lwc';
 
 const PAGINATION_STEP = 3;
 const PREVIOUS_BUTTON = '&#9668;';
@@ -82,7 +86,7 @@ export default class Datatable extends LightningElement {
         }
     }
 
-    paginationFirst() {  // Add First Page With Separator
+    paginationFirst() { // Add First Page With Separator
         this.paginationCode = [...this.paginationCode, 1, THREE_DOTS];
     }
 
@@ -190,9 +194,9 @@ export default class Datatable extends LightningElement {
     dataFilter(fieldName, searchTerm) {
         let filteredItems = [];
         if (fieldName == 'all') {
-            filteredItems = this.dataCollection.filter(o => Object.keys(o).some(k => o[k].toLowerCase().includes(searchTerm)));
+            filteredItems = this.dataCollection.filter(o => Object.keys(o).some(k => o[k].toString().toLowerCase().includes(searchTerm)));
         } else {
-            filteredItems = this.dataCollection.filter(result => result[fieldName].toLowerCase().includes(searchTerm));
+            filteredItems = this.dataCollection.filter(result => result[fieldName].toString().toLowerCase().includes(searchTerm));
         }
         this.filteredRecordHolder = filteredItems;
         let filteredRecords = Object.assign([], filteredItems);
@@ -202,7 +206,7 @@ export default class Datatable extends LightningElement {
 
 
     handleSearching(event) {
-        let searchTerm = event.target.value;
+        let searchTerm = event.target.value.toString();
         // Apply search throttling (prevents search if user is still typing)
         if (this.searchThrottlingTimeout) {
             window.clearTimeout(this.searchThrottlingTimeout);
@@ -255,11 +259,11 @@ export default class Datatable extends LightningElement {
 
     getSelectedFilter() {
         let input = this.template.querySelector('[data-filter-input]');
-        return input ? input.value : 'all';
+        return input ? input.value.toString() : 'all';
     }
     getSearchTerm() {
         let input = this.template.querySelector('[data-search-input]');
-        return input ? input.value.trim().replace(/\*/g, '').toLowerCase() : '';
+        return input ? input.value.toString().trim().replace(/\*/g, '').toLowerCase() : '';
     }
     getSelectedPaging() {
         let input = this.template.querySelector('[data-show-entries-input]');
@@ -297,13 +301,24 @@ export default class Datatable extends LightningElement {
 
     get columnFilterOptions() {
         let columnOptions = this.columns.map(obj => {
-            return { label: obj.label, value: obj.fieldName };
+            return {
+                label: obj.label,
+                value: obj.fieldName
+            };
         });
-        return [{ label: 'All', value: 'all' }, ...columnOptions];
+        return [{
+            label: 'All',
+            value: 'all'
+        }, ...columnOptions];
     }
 
     get showingEntriesMessage() {
-        let message = '', pages = 0, lastRecordNumber = 0, start = 0, end = 0, pageEntries = this.getSelectedPaging();
+        let message = '',
+            pages = 0,
+            lastRecordNumber = 0,
+            start = 0,
+            end = 0,
+            pageEntries = this.getSelectedPaging();
         if (this.getSearchTerm().length) {
             pages = (this.filteredRecordCount / pageEntries);
             lastRecordNumber = (this.pageNumber * pageEntries);
@@ -322,7 +337,10 @@ export default class Datatable extends LightningElement {
 
     get pageLengthOptions() {
         return this.pageSizeOptions.map(x => {
-            return { label: x.toString(), value: x.toString() };
+            return {
+                label: x.toString(),
+                value: x.toString()
+            };
         });
     }
 
