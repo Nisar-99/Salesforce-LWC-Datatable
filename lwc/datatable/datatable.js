@@ -190,9 +190,9 @@ export default class Datatable extends LightningElement {
     dataFilter(fieldName, searchTerm) {
         let filteredItems = [];
         if (fieldName == 'all') {
-            filteredItems = this.dataCollection.filter(o => Object.keys(o).some(k => o[k].toLowerCase().includes(searchTerm)));
+            filteredItems = this.dataCollection.filter(o => Object.keys(o).some(k => o[k] && String(o[k]).toLowerCase().includes(searchTerm)));
         } else {
-            filteredItems = this.dataCollection.filter(result => result[fieldName].toLowerCase().includes(searchTerm));
+            filteredItems = this.dataCollection.filter(result => result[fieldName] && String(result[fieldName]).toLowerCase().includes(searchTerm));
         }
         this.filteredRecordHolder = filteredItems;
         let filteredRecords = Object.assign([], filteredItems);
